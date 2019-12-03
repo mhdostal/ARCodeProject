@@ -10,7 +10,6 @@ There are links at the end if you want more details on anything presented here.
 
 Background
     In order to use the information and code presented in this article you will need to install a couple of items:
-
     - ArcGIS Runtime SDK for iOS (<link>)
         A modern, high-performance, mapping API that can be used in both Swift and Objective-C
     - ArcGIS Runtime Toolkit for iOS (<link>)
@@ -68,6 +67,7 @@ We'll start by creating a basic World-scale AR experience.  This will display a 
 
 The first thing we need to do is add an ArcGISARView to your application.  This can be done in storyboards/.xib files or in code.  Here's some code which adds the ArcGISARView to your view controller's view:
 
+```
 // Creates and ArcGISARView and specifies we want to view the live camera feed.
 let arView = ArcGISARView(renderVideoFeed: true)
     
@@ -84,28 +84,33 @@ override func viewDidLoad() {
         arView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
     ])
 }
+```
 
 Next you'll need to add the required privacy keys for the camera and device location to your application's plist file:
 
+```
 <key>NSCameraUsageDescription</key>
 <string>For displaying the live camera feed</string>
 
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>For determining your current location</string>
+```
 
 In order to load and display data, create an AGSScene.  For now, we'll simply use a scene containing a basemap, so we can see the camera move in response to device movement:
 
+```
 // Create our scene and set it on the arView.sceneView.
 let scene = AGSScene(basemapType: .streets)
 arView.sceneView.scene = scene
+```
 
 Then, create a location data source and set it on arView.  We're using an `AGSCLLocationDataSource`, included in the ArcGISRuntime SDK, to provide location information using UIKit's CoreLocation.
 
-arView.locationDataSource = AGSCLLocationDataSource()
+`arView.locationDataSource = AGSCLLocationDataSource()`
 
 The last step is to call `startTracking` on arView to initiate the location and device motion tracking using ARKit.
 
-arView.startTracking(.continuous)
+`arView.startTracking(.continuous)`
 
 We used `.continous` above because we want to continually track the device location using the GPS.  This is common for World-scale AR experiences.  For Tabletop and Flyover experiences, you would use either `.initial`, to get only the initial device location or `.ignore`, when the device location is not needed (for example when setting an origin camera).
 
@@ -115,6 +120,7 @@ Now that we've created a basic AR experience for World-scale scenarios, let's mo
 
 We'll use some different data this time, so we'll create a new scene with no base map, a layer representing data along the US-Mexican border, and an elevation source (using an AGSScene extension) to display the data at it's real-world height.
 
+```
 // Create the scene.
 let scene = AGSScene()
 scene.addElevationSource()
@@ -153,6 +159,7 @@ extension AGSScene {
         baseSurface = surface
     }
 }
+```
 
 Building and running the app at this point allows you to view the data from a higher altitude and "fly" over the data to view the data in a different way.
 
@@ -162,6 +169,7 @@ The last AR scenario we will cover is Tabletop.  In a Tabletop scenario, data is
 
 We'll start out the same way as the other two scenarios, by creating a scene and an elevation source:
 
+```
 let scene = AGSScene()
 scene.addElevationSource()
 
@@ -181,11 +189,13 @@ arView.translationFactor = 18000
 
 // Start tracking, but ignore the GPS as we've set an origin camera.
 arView.startTracking(.ignore)
+```
 
 When running the app, if you move the camera around slowly, pointed at the table top or other flat surface you want to anchor the data to, the arView will automatically detect horizontal planes.  These planes can be used to determine the surface you want to anchor to.  The planes can be visualized using the following lines of code and the Plane Toolkit class:
 
 In viewDidLoad:
 
+```
 // Set ourself as delegate so we can get ARSCNViewDelegate method calls.
 arView.arSCNViewDelegate = self
 
@@ -217,16 +227,20 @@ extension ARExample: ARSCNViewDelegate {
         }
     }
 }
+```
 
 Once a plane has been displayed, the user can tap on it and anchor the data to it.  We can make the sceneView semi-transparent to better see the found planes (in the viewDidLoad method):
 
+```
 // Dim the SceneView until the user taps on a surface.
 arView.sceneView.alpha = 0.5
+```
 
 In order to capture the user tap, you want to implement the AGSGeoViewTouchDelegate like so:
 
 In viewDidLoad:
 
+```
 // Set ourself as touch delegate so we can get touch events.
 arView.sceneView.touchDelegate = self
 
@@ -243,6 +257,7 @@ extension ARExample: AGSGeoViewTouchDelegate {
         }
     }
 }
+```
 
 The arView.setInitialTransformation method will take the tapped screen point and determine if an ARKit plane intersects the screen point; if one does, it will set the arView.initialTransformation property, which has the effect of anchoring the data to the tapped-on plane.  The above code will also make the sceneView fully opaque.
 
