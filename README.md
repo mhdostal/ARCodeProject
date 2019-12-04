@@ -98,7 +98,7 @@ Next you'll need to add the required privacy keys for the camera and device loca
 
 [screenshot]
 
-In order to load and display data, create an AGSScene.  For now, we'll simply use a scene containing just a base map, so we can see the camera move in response to device movement:
+In order to load and display data, create an AGSScene.  For now, we'll simply use a scene containing just a base map, so we can see the camera move in response to device movement.  Add this code to your `viewDidLoad` method:
 
 ```
 // Create our scene and set it on the arView.sceneView.
@@ -106,17 +106,27 @@ let scene = AGSScene(basemapType: .streets)
 arView.sceneView.scene = scene
 ```
 
-Then create a location data source and set it on arView.  We're using `AGSCLLocationDataSource` included in the ArcGISRuntime SDK, to provide location information using Apple's CoreLocation framework.
+Then create a location data source and set it on arView.  We're using `AGSCLLocationDataSource` included in the ArcGISRuntime SDK, to provide location information using Apple's CoreLocation framework. After setting the scene, add this line:
 
 `arView.locationDataSource = AGSCLLocationDataSource()`
 
-The last step is to call `startTracking` on arView to initiate the location and device motion tracking using ARKit.
+The last step is to call `startTracking` on arView to initiate the location and device motion tracking using ARKit.  This is accomplished in your view controller's `viewDidAppear` method, since we don't need to start tracking location and motion until the view is dislayed.  You should also stop tracking when the view is no longer visible (in `viewDidDisappear`).
 
-`arView.startTracking(.continuous)`
+  ```  
+    override func viewDidAppear(_ animated: Bool) {
+        arView.startTracking(.continuous)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        arView.stopTracking()
+    }
+```
 
 We used `.continous` above because we want to continually track the device location using the GPS.  This is common for World-scale AR experiences.  For Tabletop and Flyover experiences, you would use either `.initial`, to get only the initial device location or `.ignore`, when the device location is not needed (for example when setting an origin camera).
 
 At this point you can build and run the app.  The display will look similar to this, but at your geographic location.  Rotating, tilting, and panning the device will cause the display of the data to change accordingly.
+
+[World-scale screen shot]
 
 Now that we've created a basic AR experience for World-scale scenarios, let's move on to a Flyover scenario.  Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world.  A couple of the differences with Flyovers as compared to World-scale are the ability to explore more than just your immediate surroundings and not using the device location to determine where in the virtual world to position the camera.  ArcGISARView's translationFactor property allows for more movement in the virtual world than that represented in the real world.  The default value for `translationFactor` is 1.0, which means moving your device 1 meter in the real word moves the camera 1 meter in the virtual world.  Setting the `traslationFactor` to 500.0 means that for every meter in the real world the device is moved the camera will move 500.0 meters in the virtual world. We'll also set an origin camera, which represents the initial location and orientation of the camera, instead of using the device location.
 
@@ -143,9 +153,12 @@ arView.originCamera = camera
 // Set translationFactor.
 arView.translationFactor = 1000
 
+In `viewDidAppear`, you can use pass `.ignore` to `startTracking` to ignore location data:
+
 // Start tracking, but ignore the GPS as we've set an origin camera.
 arView.startTracking(.ignore)
 
+Here's the AGSScene extension which will add an elevation source to your scene:
 
 // MARK: AGSScene extension.
 extension AGSScene {
@@ -164,6 +177,9 @@ extension AGSScene {
 ```
 
 Building and running the app at this point allows you to view the data from a higher altitude and "fly" over the data to view the data in a different way.
+
+[Flyover screen shot]
+
 
 [*** when testing, build app from scratch to make sure it works...  put on Github]
 
