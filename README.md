@@ -1,8 +1,8 @@
 Introduction
 
- Augmented Reality (AR) experiences are designed to "augment" the physical world with virtual content that respects real world scale, position, and orientation of a device.  The ArcGIS Runtime SDK for iOS and the ArcGIS Runtime Toolkit for iOS from Esri provide a simplified approach to developing AR solutions.  By overlaying maps and data on top of a live camera feed, users can feel like they are viewing digital content in the real world.
- 
- In the case of Runtime, a SceneView displays 3D geographic data as virtual content on top of a camera feed which representing the physical world.  The ArcGISToolkit contains an AR component which allows quick and easy integration of AR into your application for a wide variety of scenarios.
+Augmented Reality (AR) experiences are designed to "augment" the physical world with virtual content. That means showing virtual content on top of a device's camera feed. As the device is moved around, that virtual content respects the real world scale, position, and orientation of the camera's view. The ArcGIS Runtime SDK for iOS and the ArcGIS Runtime Toolkit for iOS from Esri together provide a simplified approach to developing AR solutions that overlay maps and geographic data on top of a live camera feed. Users can feel like they are viewing digital mapping content in the real world.
+
+ In the case of Runtime, a SceneView displays 3D geographic data as virtual content on top of a camera feed which represents the physical world.  In Runtime parlance, a Scene is a description of a 3D "Map" containing potentially many types of 3D geographic data. A Runtime SceneView is a UI component used to display that Scene to the user. When used in conjunction with the ArcGIS Toolkit, a SceneView can quickly and easily be turned into an AR experience to display 3D geographic data as virtual content on top of a camera feed.
 
 Before getting started, be sure to check out this Quick Start guide to get signed up for a free ArcGIS for Developers subscription. <link to Esri developer page>
 
@@ -18,15 +18,15 @@ Background
     Information on installing the ArcGIS Runtime SDK can be found [here]()
     Information on incorporting the Toolkit into your project can be found [here]()
 
-    The AR Toolkit component allows you to build appliations using three common AR patterns:
+    The AR Toolkit component allows you to build applications using three common AR patterns:
 
-        Flyover – Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world. A typical flyover AR scenario will start with the scene’s virtual camera positioned over an area of interest. You can walk around and reorient the device to focus on specific content in the scene.
+        Flyover – Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world. A typical flyover AR scenario will start with the scene’s virtual camera positioned over an area of interest. You can walk "through" the data and reorient the device to focus on specific content in the scene.  The origin camera in a flyover scenario is usually above the tallest content in the scene.
 
-        Tabletop – A kind of AR scenario where scene content is anchored to a physical surface, as if it were a 3D-printed model. You can walk around the tabletop and view the scene from different angles.
+        Tabletop – A kind of AR scenario where scene content is anchored to a physical surface, as if it were a 3D-printed model. You can walk around the tabletop and view the scene from different angles.  The origin camera in a tabletop scenario is usually at the lowest point on the scene.
 
         World-scale – A kind of AR scenario where scene content is rendered exactly where it would be in the physical world. This is used in scenarios ranging from viewing hidden infrastructure to displaying waypoints for navigation. In AR, the real world, rather than a basemap, provides the context for your GIS data.
 
-    The AR toolkit component is comprised of one class: ArcGISARView. This is a subclass of UIView that contains the functionality needed to display an AR experience in your application. It uses ARKit, Apple's augmented reality framework to display the live camera feed and handle real world tracking and synchronization with the Runtime SDK's AGSSceneView. The ArcGISARView is responsible for starting and managing an ARKit session. It uses an AGSLocationDataSource for getting an initial GPS location and when continuous GPS tracking is required.
+    The AR toolkit component is comprised of one class: ArcGISARView. This is a subclass of UIView that contains the functionality needed to display an AR experience in your application. It uses ARKit, Apple's augmented reality framework to display the live camera feed and handle real world tracking and synchronization with the Runtime SDK's AGSSceneView. The ArcGISARView is responsible for starting and managing an ARKit session. It uses an AGSLocationDataSource (a class encapsulating device location information and updates) for getting an initial GPS location and when continuous GPS tracking is required.
 
     Features of ArcGISARView
     
@@ -47,7 +47,7 @@ Methodology
 
     - Add the ArcGISARView as a sub-view of your application's view controller view.  This can be accomplished either in code or via a Storyboard/.xib file.
     - Add the required entries to your application's plist file (for the camera and GPS).
-    - Create and set an `AGSScene` on the ArcGISARView.sceneView.scene property (the `AGSScene` contains the 3D data you want to display over the live camera feed).
+    - Create and set an `AGSScene` on the ArcGISARView.sceneView.scene property (the `AGSScene` references the 3D data you want to display over the live camera feed).
     - Set a location data source on the ArcGISARView (if you want to track the device location).  More on this later...
     - Call `ArcGISARView.startTracking()` to begin tracking location and device motion when your application is ready to begin it's AR session.
 
@@ -55,7 +55,7 @@ Methodology
 
     - originCamera - the initial camera position for the view; used to specify a location when the data is not at your current real-world location.
     - translationFactor - specifies how many meters the camera will move for each meter moved in the real world.  Used in Tabletop and Flyover scenarios.
-    - locationDataSource - this specifies the data source used to get location updates.  The SDK provides an AGSCLLocationDataSource which uses CoreLocation to generate location updates.  If you're not interested in location updates (for example in flyover and table top scenarios), this property can be nil.
+    - locationDataSource - this specifies the data source used to get location updates.  The ArcGIS Runtime SDK includes AGSCLLocationDataSource which is a location data source that uses CoreLocation to generate location updates.  If you're not interested in location updates (for example in flyover and table top scenarios), this property can be nil.
     - startTracking(_ locationTrackingMode: ARLocationTrackingMode, completion: ((_ error: Error?) -> Void)? = nil) the first argument denotes how you want to use the location data source.  There are three options:
         - ignore: this ignores the location data source updates completely
         - initial: uses only the first location data source location update
@@ -96,7 +96,9 @@ Next you'll need to add the required privacy keys for the camera and device loca
 <string>For determining your current location</string>
 ```
 
-In order to load and display data, create an AGSScene.  For now, we'll simply use a scene containing a basemap, so we can see the camera move in response to device movement:
+[screenshot]
+
+In order to load and display data, create an AGSScene.  For now, we'll simply use a scene containing just a base map, so we can see the camera move in response to device movement:
 
 ```
 // Create our scene and set it on the arView.sceneView.
@@ -104,7 +106,7 @@ let scene = AGSScene(basemapType: .streets)
 arView.sceneView.scene = scene
 ```
 
-Then, create a location data source and set it on arView.  We're using an `AGSCLLocationDataSource`, included in the ArcGISRuntime SDK, to provide location information using UIKit's CoreLocation.
+Then create a location data source and set it on arView.  We're using `AGSCLLocationDataSource` included in the ArcGISRuntime SDK, to provide location information using Apple's CoreLocation framework.
 
 `arView.locationDataSource = AGSCLLocationDataSource()`
 
@@ -116,7 +118,7 @@ We used `.continous` above because we want to continually track the device locat
 
 At this point you can build and run the app.  The display will look similar to this, but at your geographic location.  Rotating, tilting, and panning the device will cause the display of the data to change accordingly.
 
-Now that we've created a basic AR experience for World-scale scenarios, let's move on to a Flyover scenario.  Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world.  A couple of the differences with Flyovers as compared to World-scale, are the ability to explore more than just your immediate surroundings and not using the device location to determine where in the virtual world to position the camera.  ArcGISARView's translationFactor property allows for more movement in the virtual world than that represented in the real world.  The default value for `translationFactor` is 1.0, which means moving your device 1 meter in the real word moves the camera 1 meter in the virtual world.  Setting the `traslationFactor` to 500.0 means that for every meter in the real world the device is moved the camera will move 500.0 meters in the virtual world. We'll also set an origin camera, which represents the initial location and orientation of the camera, instead of using the device location.
+Now that we've created a basic AR experience for World-scale scenarios, let's move on to a Flyover scenario.  Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world.  A couple of the differences with Flyovers as compared to World-scale are the ability to explore more than just your immediate surroundings and not using the device location to determine where in the virtual world to position the camera.  ArcGISARView's translationFactor property allows for more movement in the virtual world than that represented in the real world.  The default value for `translationFactor` is 1.0, which means moving your device 1 meter in the real word moves the camera 1 meter in the virtual world.  Setting the `traslationFactor` to 500.0 means that for every meter in the real world the device is moved the camera will move 500.0 meters in the virtual world. We'll also set an origin camera, which represents the initial location and orientation of the camera, instead of using the device location.
 
 We'll use some different data this time, so we'll create a new scene with no base map, a layer representing data along the US-Mexican border, and an elevation source (using an AGSScene extension) to display the data at it's real-world height.
 
