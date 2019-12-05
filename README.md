@@ -6,9 +6,12 @@ Augmented Reality (AR) experiences are designed to "augment" the physical world 
 
 Before getting started, be sure to check out [this](https://developers.arcgis.com/sign-up) link to get signed up for a free ArcGIS for Developers subscription.
 
+You will need XCode 10.2 or later and a device running iOS 11.0 or later.
+
 There are links at the end if you want more details on anything presented here.
 
 Background
+
     In order to use the information and code presented in this article you will need to install a couple of items:
     
     - ArcGIS Runtime SDK for iOS (https://developers.arcgis.com/ios/)
