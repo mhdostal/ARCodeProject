@@ -10,13 +10,12 @@ There are links at the end if you want more details on anything presented here.
 
 Background
     In order to use the information and code presented in this article you will need to install a couple of items:
+    
     - ArcGIS Runtime SDK for iOS (https://developers.arcgis.com/ios/)
         A modern, high-performance, mapping API that can be used in both Swift and Objective-C
+        
     - ArcGIS Runtime Toolkit for iOS https://github.com/Esri/arcgis-runtime-toolkit-ios)
         Open-source code containing a collection of components that will simplify your iOS app development with ArcGIS Runtime.  This includes the AR component we will be showcasing here.
-
-    Information on installing the ArcGIS Runtime SDK can be found [here](https://developers.arcgis.com/ios/latest/swift/guide/install.htm)
-    Information on incorporting the Toolkit into your project can be found [here](https://github.com/Esri/arcgis-runtime-toolkit-ios#instructions)
 
     The AR Toolkit component allows you to build applications using three common AR patterns:
 
@@ -38,8 +37,12 @@ Background
         Easy access to all ARKit and AGSLocationDataSource delegate methods
 
     The steps needed to implement each of the three AR patterns are similar and will be detailed below.
+    
+Information on installing the ArcGIS Runtime SDK can be found [here](https://developers.arcgis.com/ios/latest/swift/guide/install.htm)
 
-    The rest of the article assumes you have installed the SDK, cloned or forked the Toolkit repo and set up your project to incorporate both.
+Information on incorporting the Toolkit into your project can be found [here](https://github.com/Esri/arcgis-runtime-toolkit-ios#instructions)
+
+The rest of the article assumes you have installed the SDK, cloned or forked the Toolkit repo and set up your project to incorporate both.
 
 Methodology
 
@@ -63,6 +66,7 @@ Methodology
 
   
 Using the code
+
 We'll start by creating a basic World-scale AR experience.  This will display a simple base map that you can view by moving your device to see the data around you.
 
 The first thing we need to do is add an ArcGISARView to your application.  This can be done in storyboards/.xib files or in code.  Here's some code which adds the ArcGISARView to your view controller's view:
@@ -340,7 +344,9 @@ Run the app and slowly move the device around your table top to find a plane; on
 
 Points of Interest
 
-[add links mentioned above]
+Apple's ARKit: https://developer.apple.com/documentation/arkit
+
+ArcGIS Toolkit for iOS contains an AR example which allows users to choose from several different AR scenarios.  More information on the Toolkit's AR component and example can be found here:  https://github.com/Esri/arcgis-runtime-toolkit-ios/tree/master/Documentation/AR
 
 For more information and detail on using the ArcGISRuntime SDK and the ArcGIS Runtime Toolkit to build compelling, full-featured applications, see the ArcGIS Runtime SDK Guide topic: [Display scenes in augmented reality](https://developers.arcgis.com/ios/latest/objective-c/guide/display-scenes-in-augmented-reality.htm).
 
