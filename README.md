@@ -128,7 +128,9 @@ At this point you can build and run the app.  The display will look similar to t
 
 [World-scale screen shot]
 
-Now that we've created a basic AR experience for World-scale scenarios, let's move on to a Flyover scenario.  Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world.  A couple of the differences with Flyovers as compared to World-scale are the ability to explore more than just your immediate surroundings and not using the device location to determine where in the virtual world to position the camera.  ArcGISARView's translationFactor property allows for more movement in the virtual world than that represented in the real world.  The default value for `translationFactor` is 1.0, which means moving your device 1 meter in the real word moves the camera 1 meter in the virtual world.  Setting the `traslationFactor` to 500.0 means that for every meter in the real world the device is moved the camera will move 500.0 meters in the virtual world. We'll also set an origin camera, which represents the initial location and orientation of the camera, instead of using the device location.
+Now that we've created a basic AR experience for World-scale scenarios, let's move on to a Flyover scenario.  Flyover AR is a kind of AR scenario that allows you to explore a scene using your device as a window into the virtual world.  A couple of the differences with Flyovers as compared to World-scale are the ability to explore more than just your immediate surroundings and not using the device location to determine where in the virtual world to position the camera.
+
+ArcGISARView's translationFactor property allows for more movement in the virtual world than that represented in the real world.  The default value for `translationFactor` is 1.0, which means moving your device 1 meter in the real word moves the camera 1 meter in the virtual world.  Setting the `traslationFactor` to 500.0 means that for every meter in the real world the device is moved the camera will move 500.0 meters in the virtual world. We'll also set an origin camera, which represents the initial location and orientation of the camera, instead of using the device location.
 
 We'll use some different data this time, so we'll create a new scene with no base map, a layer representing data along the US-Mexican border, and an elevation source (using an AGSScene extension) to display the data at it's real-world height.
 
@@ -152,14 +154,18 @@ arView.originCamera = camera
 
 // Set translationFactor.
 arView.translationFactor = 1000
+```
 
 In `viewDidAppear`, you can use pass `.ignore` to `startTracking` to ignore location data:
 
+```
 // Start tracking, but ignore the GPS as we've set an origin camera.
 arView.startTracking(.ignore)
+```
 
 Here's the AGSScene extension which will add an elevation source to your scene:
 
+```
 // MARK: AGSScene extension.
 extension AGSScene {
     /// Adds an elevation source to the given `scene`.
@@ -188,6 +194,7 @@ The last AR scenario we will cover is Tabletop.  In a Tabletop scenario, data is
 We'll start out the same way as the other two scenarios, by creating a scene and an elevation source:
 
 ```
+// Create the scene.
 let scene = AGSScene()
 scene.addElevationSource()
 
@@ -204,21 +211,35 @@ arView.originCamera = camera
 
 // Set translationFactor.
 arView.translationFactor = 18000
-
-// Start tracking, but ignore the GPS as we've set an origin camera.
-arView.startTracking(.ignore)
 ```
 
-When running the app, if you move the camera around slowly, pointed at the table top or other flat surface you want to anchor the data to, the arView will automatically detect horizontal planes.  These planes can be used to determine the surface you want to anchor to.  The planes can be visualized using the following lines of code and the Plane Toolkit class:
+We keep the `arView.startTracking(.ignore)` method the same as for the Flyover scenario.
+
+```
+// For Flyover and Tabletop AR, ignore location updates.
+// Start tracking, but ignore the GPS as we've set an origin camera.
+arView.startTracking(.ignore)
+
+```
+
+When running the app, if you move the camera around slowly, pointed at the table top or other flat surface you want to anchor the data to, the arView (using ARKit) will automatically detect horizontal planes.  These planes can be used to determine the surface you want to anchor to.  The planes can be visualized using the following lines of code and the Plane class defined below:
 
 In viewDidLoad:
 
 ```
 // Set ourself as delegate so we can get ARSCNViewDelegate method calls.
 arView.arSCNViewDelegate = self
+```
 
+Next, implement the ARSCNViewDelegate as an extension.  You'll need to import ARKit in order to get the definition for `ARSCNViewDelegate`.
+
+```
+import ARKit
+```
+
+```
 // MARK: ARSCNViewDelegate
-extension ARExample: ARSCNViewDelegate {
+extension ViewController: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         // Place content only for anchors found by plane detection.
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
@@ -261,16 +282,17 @@ In viewDidLoad:
 ```
 // Set ourself as touch delegate so we can get touch events.
 arView.sceneView.touchDelegate = self
+```
 
+```
 // MARK: AGSGeoViewTouchDelegate
-extension ARExample: AGSGeoViewTouchDelegate {
+extension ViewController: AGSGeoViewTouchDelegate {
     public func geoView(_ geoView: AGSGeoView, didTapAtScreenPoint screenPoint: CGPoint, mapPoint: AGSPoint) {
-            // We're in table-top mode and haven't placed the scene yet.  Place the scene at the given point by setting the initial transformation.
-            if arView.setInitialTransformation(using: screenPoint) {
-                // Show the SceneView now that the user has tapped on the surface.
-                UIView.animate(withDuration: 0.5) { [weak self] in
-                    self?.arView.sceneView.alpha = 1.0
-                }
+        // We're in table-top mode and haven't placed the scene yet.  Place the scene at the given point by setting the initial transformation.
+        if arView.setInitialTransformation(using: screenPoint) {
+            // Show the SceneView now that the user has tapped on the surface.
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.arView.sceneView.alpha = 1.0
             }
         }
     }
@@ -278,6 +300,41 @@ extension ARExample: AGSGeoViewTouchDelegate {
 ```
 
 The arView.setInitialTransformation method will take the tapped screen point and determine if an ARKit plane intersects the screen point; if one does, it will set the arView.initialTransformation property, which has the effect of anchoring the data to the tapped-on plane.  The above code will also make the sceneView fully opaque.
+
+The Plane class for visualizing ARKit planes:
+
+```
+/// Helper class to visualize a plane found by ARKit
+class Plane: SCNNode {
+    let node: SCNNode
+    
+    init(anchor: ARPlaneAnchor, in sceneView: ARSCNView) {
+        // Create a node to visualize the plane's bounding rectangle.
+        let extent = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        node = SCNNode(geometry: extent)
+        node.simdPosition = anchor.center
+        
+        // `SCNPlane` is vertically oriented in its local coordinate space, so
+        // rotate it to match the orientation of `ARPlaneAnchor`.
+        node.eulerAngles.x = -.pi / 2
+
+        super.init()
+
+        node.opacity = 0.6
+        guard let material = node.geometry?.firstMaterial
+            else { fatalError("SCNPlane always has one material") }
+        
+        material.diffuse.contents = UIColor.white
+
+        // Add the plane node as child node so they appear in the scene.
+        addChildNode(node)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+```
 
 Run the app and slowly move the device around your table top to find a plane; once one is found, tap on it to place the data.  You can then move the device around the table to view the data from all angles.
 
