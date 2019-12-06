@@ -8,21 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		E4983E6C2398505A0080A841 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4983E6B2398505A0080A841 /* AppDelegate.swift */; };
-		E4983E6E2398505A0080A841 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4983E6D2398505A0080A841 /* SceneDelegate.swift */; };
 		E4983E702398505A0080A841 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4983E6F2398505A0080A841 /* ViewController.swift */; };
 		E4983E732398505A0080A841 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4983E712398505A0080A841 /* Main.storyboard */; };
 		E4983E752398505B0080A841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4983E742398505B0080A841 /* Assets.xcassets */; };
 		E4983E782398505B0080A841 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4983E762398505B0080A841 /* LaunchScreen.storyboard */; };
 		E4983E81239853170080A841 /* ArcGIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4983E80239853170080A841 /* ArcGIS.framework */; };
 		E4983E82239853170080A841 /* ArcGIS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4983E80239853170080A841 /* ArcGIS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E4983E8C239853810080A841 /* ArcGISToolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4983E892398536C0080A841 /* ArcGISToolkit.framework */; };
-		E4983E8D239853810080A841 /* ArcGISToolkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4983E892398536C0080A841 /* ArcGISToolkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E4AF7F0B239AB750006D11AE /* ArcGISToolkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4AF7F08239AB728006D11AE /* ArcGISToolkit.framework */; };
+		E4AF7F0C239AB750006D11AE /* ArcGISToolkit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E4AF7F08239AB728006D11AE /* ArcGISToolkit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E4983E882398536C0080A841 /* PBXContainerItemProxy */ = {
+		E4AF7F07239AB728006D11AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E4983E842398536C0080A841 /* ArcGISToolkit.xcodeproj */;
+			containerPortal = E4AF7F03239AB728006D11AE /* ArcGISToolkit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 881233701DF601A700B2EA8E;
 			remoteInfo = ArcGISToolkit;
@@ -36,7 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E4983E8D239853810080A841 /* ArcGISToolkit.framework in Embed Frameworks */,
+				E4AF7F0C239AB750006D11AE /* ArcGISToolkit.framework in Embed Frameworks */,
 				E4983E82239853170080A841 /* ArcGIS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -47,14 +46,13 @@
 /* Begin PBXFileReference section */
 		E4983E682398505A0080A841 /* ARCodeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARCodeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4983E6B2398505A0080A841 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E4983E6D2398505A0080A841 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E4983E6F2398505A0080A841 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E4983E722398505A0080A841 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4983E742398505B0080A841 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4983E772398505B0080A841 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4983E792398505B0080A841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E4983E80239853170080A841 /* ArcGIS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArcGIS.framework; path = ../../../../Library/SDKs/ArcGIS/iOS/Frameworks/Dynamic/ArcGIS.framework; sourceTree = "<group>"; };
-		E4983E842398536C0080A841 /* ArcGISToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ArcGISToolkit.xcodeproj; path = "../../../../../../Source/ArcGIS/Cocoa/Test/cocoa-dev-tests/arcgis-runtime-toolkit-ios/Toolkit/ArcGISToolkit.xcodeproj"; sourceTree = "<group>"; };
+		E4AF7F03239AB728006D11AE /* ArcGISToolkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ArcGISToolkit.xcodeproj; path = "../../arcgis-runtime-toolkit-ios/Toolkit/ArcGISToolkit.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4983E8C239853810080A841 /* ArcGISToolkit.framework in Frameworks */,
+				E4AF7F0B239AB750006D11AE /* ArcGISToolkit.framework in Frameworks */,
 				E4983E81239853170080A841 /* ArcGIS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,7 +71,7 @@
 		E4983E5F2398505A0080A841 = {
 			isa = PBXGroup;
 			children = (
-				E4983E842398536C0080A841 /* ArcGISToolkit.xcodeproj */,
+				E4AF7F03239AB728006D11AE /* ArcGISToolkit.xcodeproj */,
 				E4983E6A2398505A0080A841 /* ARCodeProject */,
 				E4983E692398505A0080A841 /* Products */,
 				E4983E7F239853170080A841 /* Frameworks */,
@@ -92,7 +90,6 @@
 			isa = PBXGroup;
 			children = (
 				E4983E6B2398505A0080A841 /* AppDelegate.swift */,
-				E4983E6D2398505A0080A841 /* SceneDelegate.swift */,
 				E4983E6F2398505A0080A841 /* ViewController.swift */,
 				E4983E712398505A0080A841 /* Main.storyboard */,
 				E4983E742398505B0080A841 /* Assets.xcassets */,
@@ -110,10 +107,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E4983E852398536C0080A841 /* Products */ = {
+		E4AF7F04239AB728006D11AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E4983E892398536C0080A841 /* ArcGISToolkit.framework */,
+				E4AF7F08239AB728006D11AE /* ArcGISToolkit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,8 +164,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E4983E852398536C0080A841 /* Products */;
-					ProjectRef = E4983E842398536C0080A841 /* ArcGISToolkit.xcodeproj */;
+					ProductGroup = E4AF7F04239AB728006D11AE /* Products */;
+					ProjectRef = E4AF7F03239AB728006D11AE /* ArcGISToolkit.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -179,11 +176,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E4983E892398536C0080A841 /* ArcGISToolkit.framework */ = {
+		E4AF7F08239AB728006D11AE /* ArcGISToolkit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ArcGISToolkit.framework;
-			remoteRef = E4983E882398536C0080A841 /* PBXContainerItemProxy */;
+			remoteRef = E4AF7F07239AB728006D11AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -208,7 +205,6 @@
 			files = (
 				E4983E702398505A0080A841 /* ViewController.swift in Sources */,
 				E4983E6C2398505A0080A841 /* AppDelegate.swift in Sources */,
-				E4983E6E2398505A0080A841 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +355,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
 				);
 				INFOPLIST_FILE = ARCodeProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,6 +378,7 @@
 					"$(USER_LIBRARY_DIR)/SDKs/ArcGIS/iOS/Frameworks/Dynamic",
 				);
 				INFOPLIST_FILE = ARCodeProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
