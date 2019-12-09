@@ -34,6 +34,6 @@ The AR toolkit component is comprised of one class: `ArcGISARView`. This is a su
 
 Information on installing the ArcGIS Runtime SDK can be found [here](https://developers.arcgis.com/ios/latest/swift/guide/install.htm).
 
-Information on incorporting the Toolkit into your project can be found [here](https://github.com/Esri/arcgis-runtime-toolkit-ios#instructions).
+Information on incorporating the Toolkit into your project can be found [here](https://github.com/Esri/arcgis-runtime-toolkit-ios#instructions).  Because the Xcode project already contains a reference to the toolkit, you may have to reset the `Toolkit/ArcGISToolkit.xcodeproj` path to match your Toolkit project location.
 
 
