@@ -43,6 +43,7 @@ class ViewController: UIViewController {
         
 //        // Create our scene and set it on the arView.sceneView.
 //        let scene = AGSScene(basemapType: .streets)
+//        scene.addElevationSource()
 //        arView.sceneView.scene = scene
 //
 //        arView.locationDataSource = AGSCLLocationDataSource()
