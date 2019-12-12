@@ -21,7 +21,7 @@ import ARKit
 
 class ViewController: UIViewController {
 
-    // Creates and ArcGISARView and specifies we want to view the live camera feed.
+    // Creates an ArcGISARView and specifies we want to view the live camera feed.
     let arView = ArcGISARView(renderVideoFeed: true)
         
     override func viewDidLoad() {
@@ -42,66 +42,65 @@ class ViewController: UIViewController {
         //
         
 //        // Create our scene and set it on the arView.sceneView.
-//        let scene = AGSScene(basemapType: .streets)
-//        scene.addElevationSource()
+//        let scene = AGSScene(url: URL(string: "https://runtime.maps.arcgis.com/home/webscene/viewer.html?webscene=b887e33acae84a0195e725c8c093c69a")!)!
 //        arView.sceneView.scene = scene
 //
 //        arView.locationDataSource = AGSCLLocationDataSource()
         
         //
-        // Flyover scenario
+        // Tabletop scenario
         //
         
 //        // Create the scene.
 //        let scene = AGSScene()
 //        scene.addElevationSource()
 //
-//        // Create the border layer.
-//        let layer = AGSIntegratedMeshLayer(url: URL(string: "https://tiles.arcgis.com/tiles/FQD0rKU8X5sAQfh8/arcgis/rest/services/VRICON_SW_US_Sample_Integrated_Mesh_scene_layer/SceneServer")!)
-//
-//        // Add layer to the scene's operational layers array.
+//        // Create the Yosemite layer.
+//        let layer = AGSIntegratedMeshLayer(url: URL(string: "https://tiles.arcgis.com/tiles/FQD0rKU8X5sAQfh8/arcgis/rest/services/VRICON_Yosemite_Sample_Integrated_Mesh_scene_layer/SceneServer")!)
 //        scene.operationalLayers.add(layer)
 //
 //        // Set the scene on the arView.sceneView.
 //        arView.sceneView.scene = scene
 //
 //        // Create and set the origin camera.
-//        let camera = AGSCamera(latitude: 32.533664, longitude: -116.924699, altitude: 126.349876, heading: 0, pitch: 90.0, roll: 0)
+//        let camera = AGSCamera(latitude: 37.730776, longitude: -119.611843, altitude: 1213.852173, heading: 0, pitch: 90.0, roll: 0)
 //        arView.originCamera = camera
 //
 //        // Set translationFactor.
-//        arView.translationFactor = 1000
-        
+//        arView.translationFactor = 18000
+//
+//        // Set ourself as delegate so we can get ARSCNViewDelegate method calls.
+//        arView.arSCNViewDelegate = self
+//
+//        // Dim the SceneView until the user taps on a surface.
+//        arView.sceneView.alpha = 0.5
+//
+//        // Set ourself as touch delegate so we can get touch events.
+//        arView.sceneView.touchDelegate = self
+                
         //
-        // Tabletop scenario
+        // Flyover scenario
         //
         
         // Create the scene.
         let scene = AGSScene()
         scene.addElevationSource()
 
-        // Create the Yosemite layer.
-        let layer = AGSIntegratedMeshLayer(url: URL(string: "https://tiles.arcgis.com/tiles/FQD0rKU8X5sAQfh8/arcgis/rest/services/VRICON_Yosemite_Sample_Integrated_Mesh_scene_layer/SceneServer")!)
+        // Create the border layer.
+        let layer = AGSIntegratedMeshLayer(url: URL(string: "https://tiles.arcgis.com/tiles/FQD0rKU8X5sAQfh8/arcgis/rest/services/VRICON_SW_US_Sample_Integrated_Mesh_scene_layer/SceneServer")!)
+
+        // Add layer to the scene's operational layers array.
         scene.operationalLayers.add(layer)
 
         // Set the scene on the arView.sceneView.
         arView.sceneView.scene = scene
 
         // Create and set the origin camera.
-        let camera = AGSCamera(latitude: 37.730776, longitude: -119.611843, altitude: 1213.852173, heading: 0, pitch: 90.0, roll: 0)
+        let camera = AGSCamera(latitude: 32.533664, longitude: -116.924699, altitude: 126.349876, heading: 0, pitch: 90.0, roll: 0)
         arView.originCamera = camera
 
         // Set translationFactor.
-        arView.translationFactor = 18000
-
-        // Set ourself as delegate so we can get ARSCNViewDelegate method calls.
-        arView.arSCNViewDelegate = self
-
-        // Dim the SceneView until the user taps on a surface.
-        arView.sceneView.alpha = 0.5
-
-        // Set ourself as touch delegate so we can get touch events.
-        arView.sceneView.touchDelegate = self
+        arView.translationFactor = 1000
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,10 +112,10 @@ class ViewController: UIViewController {
 //        arView.startTracking(.continuous)
         
         //
-        // Flyover and Tabletop scenario
+        // Tabletop and Flyover scenario
         //
 
-        // For Flyover and Tabletop AR, ignore location updates.
+        // For Tabletop and Flyover AR, ignore location updates.
         // Start tracking, but ignore the GPS as we've set an origin camera.
         arView.startTracking(.ignore)
     }
