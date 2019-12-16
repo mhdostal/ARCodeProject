@@ -1,5 +1,5 @@
 # ARCodeProject
-This repository contains the companion code for the [Augmented reality with the ArcGIS Runtime SDK for iOS]() [Code Project](https://www.codeproject.com) article.
+This repository contains the companion code for the [Augmented reality with the ArcGIS Runtime SDK for iOS](https://www.codeproject.com/Articles/5254219/Augmented-Reality-with-the-ArcGIS-Runtime-SDK-fo-2) [Code Project](https://www.codeproject.com) article.
 
 ## Background
 
